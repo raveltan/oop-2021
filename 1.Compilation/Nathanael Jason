@@ -1,0 +1,4 @@
+The file is saved with an extension of '.java’. In compiling, the .java file is transmitted to the interpreter, 
+which then encodes the file. In a separate '.class' file, the output of each class found in the source file is 
+stored.
+Nathanael Jason - 2440047476
