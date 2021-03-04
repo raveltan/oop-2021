@@ -1,0 +1,49 @@
+## Java Compilation Process
+#### by Leon Jayakusuma
+
+  In Java, the compilation process is a little bit different compared to other programming languages. The difference is how the Java source code is not interpreted or even compiled directly, rather Java source code is compiled into [bytecode](https://en.wikipedia.org/wiki/Java_bytecode) first. After the source code has been converted successfully into bytecode, the bytecode is then processed again by Java interpreter called a Java Virtual Machine ([JVM](https://www.geeksforgeeks.org/jvm-works-jvm-architecture/)) into machine code (binary code) that the CPU can directly understand. The bytecode is understood by most platforms and most programming languages, so it only has one representation. Another important difference is that Java uses both compilation and interpretation in its execution process.
+## Steps
+### 1. Conversion of Source Code to [Bytecode](https://en.wikipedia.org/wiki/Java_bytecode) --> Compile Time
+  Java source code is converted by the Java compiler ([javac](https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#synopsis)) into bytecode. [Java Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html), which can be downloaded through the official Oracle website, is basically Java Runtime Environment(JRE) with [javac](https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#synopsis).  The resulting language is a lower level language that is difficult to be read by human but still comprehensible if you try hard enough. This bytecode is to be passed to the Java Virtual Machine later for further processing. This process only need to happen once (the initial compilation), afterwards, bytecode is there to run again without having to repeat the compilation process, except if you make any changes to your program. 
+  One thing to note is that compilation (conversion of source code to byte code) happens before any piece of source code is run. This makes the build process (initially) a bit slower than an interpreted language, but for an end user application, this will greatly speed up the performance compared to interpreted language (e.g. Python), as the app source code that you have written don't have to be recompiled, drastically improving loading time. However, compared to lower-level programming language (C / C++) that can be directly converted to machine code, this process is a bit slower. But the advantage to this process is that the code that you write in Java are platform-independent, that means you only need to write a code once and it can be run on any platform, as long as they have a virtual machine interpreter. The Java source code is saved in a file with the .java extension. 
+  The compilation process can be summarized with these [steps](https://www.geeksforgeeks.org/compilation-execution-java-program/):
+  1. [Parsing](https://en.wikipedia.org/wiki/Parsing) : create a tree-representation (Abstract Syntax Tree) of the source code
+  2. [Symbol Table](https://www.tutorialspoint.com/compiler_design/compiler_design_symbol_table.htm) : create a symbol table from the identifiers found in AST that has been created for further processing 
+  3. [Annotation](https://www.geeksforgeeks.org/annotations-in-java/) Processing : processes annotation(comment-like entity that can also behave as a preprocessor for some keywords)
+  4. Attribute : attributes the AST, includes name resolution(same identifier with same position in different scope), type checking, and [constant folding and propagation](https://en.wikipedia.org/wiki/Constant_folding)(in some cases also uses dead code elimination. Constant folding is the process whereby mathematical expressions with constants are evaluated at compile-time. Whereas constant propagation is substituting variables with constants. Dead code elimination are removal of code that doesn't affect execution of program if removed (usually happens after constant folding and propagation). 
+  5. [Flow](https://www.geeksforgeeks.org/data-flow-analysis-compiler/) : Data flow analysis on AST, includes checking for assignment and data reachability.
+  6. Desugar : Rewrites AST after removing [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) by replacing it with the correct native code representation. 
+  7. Generation : generate .class file
+### 2. Conversion of Byte Code to Machine Code
+  After the Java source code has been converted to bytecode, the bytecode is then passed to JVM. The JVM then interprets the bytecode into their respective platform-specific machine code, as each platform has their own encoding scheme when running machine code or binary code. JVM is called a virtual machine because essentially, it means that it is an emulator for a machine platform. So, [JVM](https://www.geeksforgeeks.org/jvm-works-jvm-architecture/) is a machine like any other, but it runs on top of the other platforms. The bytecode is usually saved with the .class or .jar (java archive) extension But many people are confused, why do we convert it into a [bytecode](https://en.wikipedia.org/wiki/Java_bytecode) first, then interpret it with platform-specific JVM ? Citing one of the [answers](https://softwareengineering.stackexchange.com/questions/345458/what-is-the-use-of-converting-source-code-to-java-bytecode) in the software engineering stackexchange forum that I've linked below, think of the example below:
+  As mentioned before, the bytecode's format is agreed upon by most platform and most programming language. Suppose we have M programming languages and N platforms and each compiler needs to be platform-specific and language-specific, this means we need approximately M*N compilers. Meanwhile, bytecodes are platform-independent. This means, we can have M 'front-end' compilers that translates the language into bytecodes and N 'back-end' compilers that translates the bytecode into machine code, in total M+N compilers.
+  Another advantage of compiling into bytecode first is that the problem of the compilation process can be divided into two parts which is parsing the language(mostly) and some other stuff, and the other part is back-end stuff like processor design, instruction set, etc.
+  The bytecode that has been produced in the end of the compilation process by javac is then passed on to the JVM for further processing. There are 3 big steps involved inside JVM:
+  1. [Loading](https://www.baeldung.com/java-classloaders): loads the .class file(s) generated
+      1. Bootstrap Class Loader: not a class, only a piece of code that is written in C/C++ to initialize all default classes in java.util and java.lang.
+      2. Extension Class Loader: implemented as a class in Java. Loads all extension classes (classes that inherits from another class, most likely default classes)
+      3. Application Class Loader: also implemented as a class in Java. Loads all classes that you define yourself or you include from a library.
+  2. Linking: links the loaded .class file(s)
+      1. Verification : validates the .class bytecode file for the correct compiler. Also checks for runtime errors (e.g. variable initialization before use, access modifier rule obeyed)
+      2. Preparation : set class variables'(set with static keyword) value to default (note : class variables are not instance variables)
+      3. Resolution : symbolic reference into direct reference by searching in method area.
+  3. Initialization: all static variables' value are initialized.
+  4. Just-in-time([JIT](https://en.wikipedia.org/wiki/Just-in-time_compilation)) Compiler and Interpreter:
+      The JIT compiler and interpreter works together. The interpreter translates and executes the bytecode that has been processed through JVM line by line. The next time the program is run again, the interpreter doesn't have to work as hard. This is because of JIT compiler. The JIT compiler identifies methods that are frequently used. Instead of having to interpret those methods' bodies multiple times, the JIT compiler compiled the method into machine code that can be directly run by the CPU, cutting runtime further for every program execution. The JIT Compiler not only remember methods that are called frequently but also stores the machine code from the execution session before. So, for the next time the app is run, the one that is compiled is only the part that changed while other parts that doesn't change is left alone because the JIT already have it in memory.
+      
+### Summary
+  Java compilation and execution process happens in two stages : source code to bytecode and bytecode to machine code. Source code to byte code goes through javac that comes prepackaged along with JRE in JDK. Bytecode generation has many advantage compared to other programming languages' compilation techniques. Compilation process : parsing, symbol table, annotation processing, attribute, flow, generation. Runtime process : Loading (Bootstrap, Extension, App Class Loader), Linking (Verification, Preparation, Resolution), Initialization, Just-in-time compilation and interpretation.
+  
+  source : 
+  https://en.wikipedia.org/wiki/Java_bytecode
+  https://www.geeksforgeeks.org/annotations-in-java/
+  https://www.tutorialspoint.com/compiler_design/compiler_design_symbol_table.htm
+  https://www.youtube.com/watch?v=ZBJ0u9MaKtM
+  https://www.tutorialspoint.com/compiler_design/compiler_design_symbol_table.html
+  http://www2.hawaii.edu/~takebaya/ics111/process_of_programming/process_of_programming.html
+  https://en.wikibooks.org/wiki/Java_Programming/Compilation
+  https://softwareengineering.stackexchange.com/questions/345458/what-is-the-use-of-converting-source-code-to-java-bytecode
+  https://www.geeksforgeeks.org/compilation-execution-java-program/
+  https://www.geeksforgeeks.org/jvm-works-jvm-architecture/
+  https://en.wikipedia.org/wiki/Constant_folding
+  

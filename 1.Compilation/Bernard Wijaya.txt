@@ -1,0 +1,12 @@
+From what I know, Java it self is a compiler that converts 
+high-level java codes into byte codes that is also a type of machine code.
+Java it self is quite special because other compilers usually requires special
+configuration  in order to work at diffrent platforms. Java at the other hand,
+succeeded in eliminating the platform issue because it reorganizes the compile-link-execute 
+sequence at an underlying level of the compiler. Java creates the byte code 
+which can be used at any platform with the condition that your device has Java
+ installed. The byte code itself is a object file for a virtual machine and is not
+an executable file.
+
+Java Compilation Process - Bernard Wijaya
+
