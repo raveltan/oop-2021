@@ -56,6 +56,8 @@ public class Shopping {
                         System.out.println(" ");
                     }
                 }
+            } else {
+                System.out.println("Invalid input.");
             }
         } while (option != 4) ;
     }
