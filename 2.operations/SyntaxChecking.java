@@ -8,8 +8,7 @@ public class SyntaxChecking {
     static boolean balanced(String expr) 
     { 
 
-        Deque<Character> stack 
-            = new ArrayDeque<Character>(); 
+        Deque<Character> stack = new ArrayDeque<Character>(); 
 
         for (int i = 0; i < expr.length(); i++)  
         { 
