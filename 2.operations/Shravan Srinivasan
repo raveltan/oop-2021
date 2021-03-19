@@ -1,0 +1,72 @@
+//Calculator
+import java.util.Scanner;
+//Numbers with Decimals 
+// addition, subtraction, multiplication, division, exponenets
+//Modulus
+//error messages when something is wrong
+// keeps running until told to quit
+
+
+public class Calculator{
+
+	//MAIN PROGRAM
+	public static void main(String[] args){
+		Scanner keyboard = new Scanner(System.in);
+
+		double num1, num2, ans;
+		String oper;
+
+		System.out.println("NAGMA's SIMPLE CALCULATOR PROGRAM");
+		
+		do{
+			System.out.println("Please enter your calculation (number 1 [operation] number 2: ");
+			System.out.print("> ");
+			num1 = keyboard.nextDouble();
+			oper = keyboard.next();
+			num2 = keyboard.nextDouble();
+
+			if (oper.equals("+")){
+				ans = num1 + num2;
+			}
+			else if (oper.equals("-")){
+				ans = num1 - num2;
+			}
+			else if (oper.equals("*")){
+				ans = num1 * num2;
+			}
+			else if (oper.equals("/")){
+				ans = num1/num2;
+			}
+			else if (oper.equals("^")){
+				ans = Math.pow(num1, num2);
+			}
+			else if (oper.equals("%")){
+				//converting double to long to do modulus
+				long n1 = Math.round(num1);
+				long n2 = Math.round(num2);
+				ans = is_Mod(n1, n2);
+			}
+			else{
+				System.out.println("Undefined operator: '" + oper + "'.");
+				ans = 0;
+			}
+			
+			System.out.println("Result: " + ans);
+		}
+		while(num1!=0);
+		System.out.println("CALCULATION OVER. Bye.");
+	}
+
+	//Calculates Modulus
+	public static double is_Mod(long num1, long num2){
+		double ans;
+		if (num1%num2 == 0){
+			System.out.println("\n" + num1 + " is fully divisible by " + num2);
+			return ans = num1%num2;
+		}
+		else {
+			System.out.println("\n" + num1 + " returns a remainder when divided by " + num2);
+			return ans = num1%num2;
+		}
+	}
+}
