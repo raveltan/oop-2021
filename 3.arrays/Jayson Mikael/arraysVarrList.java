@@ -13,6 +13,9 @@ public class arraysVarrList {
 		ArrayList<String> ShopMenu = new ArrayList();
 		
 		
+		// i used arraylist instead of arrays because if the dynamic size thus allowing the user to add a larger number of items to the array
+		
+		
 		ShopMenu.add("Fish and Chips");
 		ShopMenu.add("Steak");
 		ShopMenu.add("Mac and Cheese");
