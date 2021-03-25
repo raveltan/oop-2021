@@ -3,7 +3,7 @@ package array.assignment;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class stationeryStore {
+public class Main {
 
     Scanner scan = new Scanner(System.in);
     ArrayList<ArrayList> list = new ArrayList<>();
