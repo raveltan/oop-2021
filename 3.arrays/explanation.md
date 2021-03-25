@@ -1,6 +1,0 @@
-For this assignment, i use arraylist and the reason why i use arraylist and not array
-is because the program has a function to add and delete items in the arraylist
-(add stationery stock and buy stationery)
-which can't be done using normal arrays because array are static and once the
-size are determined, it cannot be edited meanwhile arraylist are dynamic and the 
-sizes  are re-sizeable.
